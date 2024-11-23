@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 from crewai.flow.flow import Flow, listen, start
 
 from .crews.research_paper_crew.research_paper_crew import ResearchPaperCrewCrew
+from .crews.bloq_writing_crew.bloq_writing_crew import BloqWritingCrew
 
 
 class ResearchState(BaseModel):
@@ -25,6 +26,10 @@ class ResearchState(BaseModel):
     research_result: str = Field(
         default="",
         description="The compiled research results and findings"
+    )
+    bloq_result: str = Field(
+        default="",
+        description="The result from the bloq writing process"
     )
 
     class Config:
@@ -124,7 +129,11 @@ class ResearchFlow(Flow[ResearchState]):
     @listen(get_topic)
     def get_research_areas(self):
         if self.loaded_config.get('research_areas'):
-            self.state.research_areas = self.loaded_config['research_areas']
+            # Convert list of research areas to a semicolon-separated string if it's a list
+            research_areas = self.loaded_config['research_areas']
+            if isinstance(research_areas, list):
+                research_areas = "; ".join(research_areas)
+            self.state.research_areas = research_areas
             print(f"Using research areas from config: {self.state.research_areas}")
         else:
             print("Getting research areas")
@@ -152,6 +161,28 @@ class ResearchFlow(Flow[ResearchState]):
         with open("researchpaper.md", "w") as f:
             f.write(self.state.research_result)
         print("Research paper saved to researchpaper.md")
+
+    @listen(save_research)
+    def write_bloq(self):
+        print("Starting bloq writing process")
+        research_file = Path("researchpaper.md")
+        
+        inputs = {
+            "file_path": str(research_file.absolute()),
+            "topic": self.state.topic
+        }
+        
+        result = (
+            BloqWritingCrew()
+            .crew()
+            .kickoff(inputs=inputs)
+        )
+
+        print("Bloq writing completed", result.raw)
+        self.state.bloq_result = result.raw
+        
+        # The bloq writing crew already saves to bloq1.md in its review_and_polish task
+        print("Bloq content saved to bloq1.md")
 
 
 def kickoff(config_path: Optional[str] = None):

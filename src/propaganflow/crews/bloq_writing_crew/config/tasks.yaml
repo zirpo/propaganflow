@@ -1,0 +1,86 @@
+blog_planner_task:
+  description: >
+    Read and analyze the research paper located at {file_path} about the topic "{topic}"
+    Create a structured layout plan for a Medium blog post that maximizes reader engagement and content flow.
+    Plan for a comprehensive post between 1300-2000 words.
+    Define the essential sections of the blog post, including introduction, main body segments, and conclusion.
+    Outline the purpose and key elements for each section, ensuring a logical progression of ideas.
+    Consider Medium's best practices for content structure and reader engagement patterns.
+  expected_output: >
+    A detailed blog post structure outline including:
+    - Introduction section layout (hook, context, thesis) - approximately 150-200 words
+    - Body section breakdowns (key arguments, transition points) - approximately 1000-1600 words
+    - Conclusion framework (key takeaways, call-to-action) - approximately 150-200 words
+    - Recommended paragraph lengths and content flow
+    - Strategic placement points for engagement elements
+    Total word count should fall between 1300-2000 words of substantial content.
+  async_execution: false
+  agent: medium_optimization_specialist
+
+writing_task:
+  description: >
+    Using both research documents (topic and specific areas) and following the structured layout from the blog planner task, craft an engaging and conversational blog post about {topic}. 
+    Create substantial content between 1300-2000 words that thoroughly explores the topic.
+    Follow these readability guidelines:
+    - Keep sentences under 20 words when possible
+    - Use simple, direct language
+    - Break complex ideas into multiple sentences
+    - Limit use of passive voice to 10% or less
+    - Start each paragraph with a clear topic sentence
+    Work through each section sequentially as defined in the blog planner's outline.
+    Incorporate logical arguments with evidence-based reasoning and relevant statistics.
+    Use real-world examples to illustrate key points.
+  expected_output: >
+    A well-written, highly readable draft that:
+    - Contains 1300-2000 words of quality content
+    - Uses clear, concise sentences
+    - Avoids complex terminology unless necessary
+    - Maintains an active voice
+    - Breaks down complex ideas into digestible chunks
+    - Supports key points with clear examples
+    The content should thoroughly explore the topic while remaining accessible to a general audience.
+  async_execution: false
+  agent: persuasive_writer
+  
+
+editing_task:
+  description: >
+    Review and edit the blog post to amplify pro-technology and pro-AI arguments while maintaining high readability.
+    Ensure the content remains within 1300-2000 words while preserving substance and depth.
+    Focus on:
+    - Breaking long sentences into shorter ones
+    - Replacing complex words with simpler alternatives
+    - Converting passive voice to active voice
+    - Using clear topic sentences
+    - Creating smooth transitions between ideas
+    Highlight the transformative benefits of technology using clear, straightforward language.
+    Ensure discussions on regulation use simple, direct statements.
+  expected_output: >
+    A polished version that:
+    - Maintains 1300-2000 words of meaningful content
+    - Contains no sentences over 25 words
+    - Uses active voice in 90% of sentences
+    - Explains complex concepts in simple terms
+    - Maintains clear paragraph structure
+    - Flows naturally between ideas
+    The final text should be easy to read while effectively advocating for rational, tech-centric thinking.
+  async_execution: false
+  agent: logic_driven_editor
+
+humanizing_task:
+  description: >
+    Refine the edited blog post to enhance its authenticity and human touch while maintaining readability.
+    Preserve the 1300-2000 word count while ensuring each word contributes value.
+    Add conversational elements without creating complex sentences.
+    Use relatable examples and simple analogies to connect with readers.
+    Keep the language natural but clear.
+  expected_output: >
+    A humanized version that:
+    - Maintains 1300-2000 words of engaging content
+    - Reads naturally and conversationally
+    - Uses simple, relatable language
+    - Maintains clear sentence structure
+    - Connects with readers through straightforward examples
+    - Preserves the original message in accessible language
+  async_execution: false
+  agent: content_humanizer

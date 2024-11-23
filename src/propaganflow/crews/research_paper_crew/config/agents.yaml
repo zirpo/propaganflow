@@ -22,4 +22,4 @@ writing_expert:
   backstory: As a seasoned writer, you possess the ability to convey complex ideas
     clearly and engagingly. Your focus is on creating error-free content with proper
     citations.
-  llm: gpt-4o-mini
+  llm: gpt-4o
