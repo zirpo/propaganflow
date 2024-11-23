@@ -1,37 +1,39 @@
 gather_sources_task:
   description: >
-    Conduct comprehensive research to compile a list of reputable sources and pertinent information on the topic '{topic}'. If '{research_areas}' are provided, focus the research within those specific domains. Leverage various online databases, academic journals, and authoritative websites to identify thoroughly researched articles and scholarly papers. Ensure the utilization of all available inline and local research tools, including the pdfsearchtool, to discover and incorporate relevant information.
+    Conduct comprehensive research to compile a list of reputable sources and pertinent information on the topic '{topic}'. If '{research_areas}' are provided, focus the research within those specific domains. Leverage various online databases, academic journals, and authoritative websites to identify thoroughly researched articles and scholarly papers. Ensure the utilization of all available inline and local research tools, including the pdfsearchtool, to discover and incorporate relevant information. All research and documentation must be in English.
   expected_output: >
-    A curated list of credible sources related to the topic '{topic}', organized by '{research_areas}' when specified, including detailed information such as article titles, authors, publication dates, and direct URLs.
+    A curated list of credible sources in English related to the topic '{topic}', organized by '{research_areas}' when specified, including detailed information such as article titles, authors, publication dates, and direct URLs.
   async_execution: false
   agent: research_specialist
-  
+
 create_outline_task:
-  description: Develop a structured outline for the research paper based on the gathered
-    information and ensuring a clear thesis statement, logical organization, and flow.
-  expected_output: A detailed outline for the research paper, including a clear thesis
-    statement, main points, and logical organization of sections.
+  description: >
+    Develop a structured outline for the research paper based on the gathered information and ensuring a clear thesis statement, logical organization, and flow. The outline must be written in clear, professional English.
+  expected_output: >
+    A detailed outline in English for the research paper, including a clear thesis statement, main points, and logical organization of sections.
   async_execution: false
   agent: content_organizer
   context:
   - gather_sources_task
 
 draft_paper_task:
-  description: Compose the initial draft of the research paper based on the organized
-    outline, ensuring clarity, engaging language, and error-free writing.
-  expected_output: An initial draft of the research paper, structured according to
-    the outline, with engaging language and clear explanations of complex ideas.
+  description: >
+    Compose the initial draft of the research paper in clear, professional English based on the organized outline, ensuring clarity, engaging language, and error-free writing.
+  expected_output: >
+    An initial draft of the research paper in English, structured according to the outline, with engaging language and clear explanations of complex ideas.
   async_execution: false
   agent: writing_expert
   context:
   - create_outline_task
 
 revise_edit_task:
-  description: Review the draft for grammar, spelling, and overall quality. Ensure
-    proper citations and an objective perspective while addressing any counterarguments.
-  expected_output: A polished and finalized version of the research paper, ready for
-    submission, with all grammar and citation errors corrected.
+  description: >
+    Review the draft for grammar, spelling, and overall quality. Ensure proper citations and an objective perspective while addressing any counterarguments. All content must maintain professional English language standards.
+  expected_output: >
+    A polished and finalized version of the research paper in English, ready for submission, with all grammar and citation errors corrected.
   async_execution: false
   agent: writing_expert
   context:
   - draft_paper_task
+
+

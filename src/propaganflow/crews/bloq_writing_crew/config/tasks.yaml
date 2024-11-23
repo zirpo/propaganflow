@@ -6,8 +6,9 @@ blog_planner_task:
     Define the essential sections of the blog post, including introduction, main body segments, and conclusion.
     Outline the purpose and key elements for each section, ensuring a logical progression of ideas.
     Consider Medium's best practices for content structure and reader engagement patterns.
+    All content must be written in clear, professional English.
   expected_output: >
-    A detailed blog post structure outline including:
+    A detailed blog post structure outline in English including:
     - Introduction section layout (hook, context, thesis) - approximately 150-200 words
     - Body section breakdowns (key arguments, transition points) - approximately 1000-1600 words
     - Conclusion framework (key takeaways, call-to-action) - approximately 150-200 words
@@ -19,7 +20,7 @@ blog_planner_task:
 
 writing_task:
   description: >
-    Using both research documents (topic and specific areas) and following the structured layout from the blog planner task, craft an engaging and conversational blog post about {topic}. 
+    Using both the provided research documents (topic and specific areas) and conducting additional research through reputable sources (including web searches), craft an engaging and conversational blog post about {topic} in English. 
     Create substantial content between 1300-2000 words that thoroughly explores the topic.
     Follow these readability guidelines:
     - Keep sentences under 20 words when possible
@@ -30,22 +31,23 @@ writing_task:
     Work through each section sequentially as defined in the blog planner's outline.
     Incorporate logical arguments with evidence-based reasoning and relevant statistics.
     Use real-world examples to illustrate key points.
+    Ensure all information is accurate and properly cited from credible sources.
   expected_output: >
-    A well-written, highly readable draft that:
+    A well-written, highly readable draft in English that:
     - Contains 1300-2000 words of quality content
     - Uses clear, concise sentences
     - Avoids complex terminology unless necessary
     - Maintains an active voice
     - Breaks down complex ideas into digestible chunks
     - Supports key points with clear examples
+    - Incorporates findings from additional research to enrich the content
     The content should thoroughly explore the topic while remaining accessible to a general audience.
   async_execution: false
   agent: persuasive_writer
-  
 
 editing_task:
   description: >
-    Review and edit the blog post to amplify pro-technology and pro-AI arguments while maintaining high readability.
+    Review and edit the blog post to amplify pro-technology and pro-AI arguments while maintaining high readability in English.
     Ensure the content remains within 1300-2000 words while preserving substance and depth.
     Focus on:
     - Breaking long sentences into shorter ones
@@ -56,7 +58,7 @@ editing_task:
     Highlight the transformative benefits of technology using clear, straightforward language.
     Ensure discussions on regulation use simple, direct statements.
   expected_output: >
-    A polished version that:
+    A polished version in English that:
     - Maintains 1300-2000 words of meaningful content
     - Contains no sentences over 25 words
     - Uses active voice in 90% of sentences
@@ -69,13 +71,13 @@ editing_task:
 
 humanizing_task:
   description: >
-    Refine the edited blog post to enhance its authenticity and human touch while maintaining readability.
+    Refine the edited blog post to enhance its authenticity and human touch while maintaining readability in English.
     Preserve the 1300-2000 word count while ensuring each word contributes value.
     Add conversational elements without creating complex sentences.
     Use relatable examples and simple analogies to connect with readers.
     Keep the language natural but clear.
   expected_output: >
-    A humanized version that:
+    A humanized version in English that:
     - Maintains 1300-2000 words of engaging content
     - Reads naturally and conversationally
     - Uses simple, relatable language

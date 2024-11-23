@@ -31,6 +31,10 @@ class ResearchState(BaseModel):
         default="",
         description="The result from the bloq writing process"
     )
+    config_name: str = Field(
+        default="research",
+        description="Base name of the selected config file"
+    )
 
     class Config:
         """Pydantic model configuration"""
@@ -43,7 +47,11 @@ class ResearchFlow(Flow[ResearchState]):
         super().__init__()
         self.config_path = config_path
         self.input_dir = Path(__file__).parent / "crews" / "research_paper_crew" / "research_input"
+        self.research_papers_dir = Path(__file__).parent / "crews" / "bloq_writing_crew" / "researchpapers"
         self.loaded_config = {}
+        
+        # Ensure research papers directory exists
+        self.research_papers_dir.mkdir(parents=True, exist_ok=True)
 
     def get_available_configs(self) -> List[Path]:
         """Get list of available config files in the research_input directory"""
@@ -73,7 +81,10 @@ class ResearchFlow(Flow[ResearchState]):
                     
                 index = int(choice) - 1
                 if 0 <= index < len(configs):
-                    return configs[index]
+                    selected_config = configs[index]
+                    # Store the config name without extension in the state
+                    self.state.config_name = selected_config.stem
+                    return selected_config
                 else:
                     print("Invalid selection. Please try again.")
             except ValueError:
@@ -158,18 +169,21 @@ class ResearchFlow(Flow[ResearchState]):
     @listen(conduct_research)
     def save_research(self):
         print("Saving research")
-        with open("researchpaper.md", "w") as f:
+        output_filename = self.research_papers_dir / f"{self.state.config_name}.md"
+        with open(output_filename, "w") as f:
             f.write(self.state.research_result)
-        print("Research paper saved to researchpaper.md")
+        print(f"Research paper saved to {output_filename}")
 
     @listen(save_research)
     def write_bloq(self):
         print("Starting bloq writing process")
-        research_file = Path("researchpaper.md")
+        research_file = self.research_papers_dir / f"{self.state.config_name}.md"
+        bloq_filename = f"{self.state.config_name}_blogpost.md"
         
         inputs = {
             "file_path": str(research_file.absolute()),
-            "topic": self.state.topic
+            "topic": self.state.topic,
+            "output_filename": bloq_filename  # Pass the desired filename to the BloqWritingCrew
         }
         
         result = (
@@ -181,8 +195,10 @@ class ResearchFlow(Flow[ResearchState]):
         print("Bloq writing completed", result.raw)
         self.state.bloq_result = result.raw
         
-        # The bloq writing crew already saves to bloq1.md in its review_and_polish task
-        print("Bloq content saved to bloq1.md")
+        # Save the blog post with the config-based filename
+        with open(bloq_filename, "w") as f:
+            f.write(self.state.bloq_result)
+        print(f"Bloq content saved to {bloq_filename}")
 
 
 def kickoff(config_path: Optional[str] = None):

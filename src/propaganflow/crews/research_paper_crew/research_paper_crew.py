@@ -62,8 +62,8 @@ class ResearchPaperCrewCrew():
             config=self.tasks_config['revise_edit_task'],
             tools=[],
             
-        )
-
+        ) 
+    
     @crew
     def crew(self) -> Crew:
         """Creates the ResearchPaperCrew crew"""

@@ -1,5 +1,6 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from crewai_tools import ScrapeWebsiteTool,SerperDevTool
 
 # Uncomment the following line to use an example of a custom tool
 # from bloq_writing_crew.tools.custom_tool import MyCustomTool
@@ -14,10 +15,14 @@ class BloqWritingCrew():
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 
+	def __init__(self):
+		self.output_filename = None
+
 	@agent
 	def persuasive_writer(self) -> Agent:
 		return Agent(
 			config=self.agents_config['persuasive_writer'],
+			tools=[SerperDevTool(),ScrapeWebsiteTool()],
 			# tools=[MyCustomTool()], # Example of custom tool, loaded on the beginning of file
 			verbose=True
 		)
@@ -66,7 +71,7 @@ class BloqWritingCrew():
 	def humanizing_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['humanizing_task'],
-			output_file='bloq1.md'
+			output_file=self.output_filename or 'bloq1.md'  # Use provided filename or fallback to default
 		)
 
 	@crew
@@ -80,3 +85,9 @@ class BloqWritingCrew():
 			memory=True,
 			# process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
 		)
+
+	def kickoff(self, inputs=None):
+		"""Override kickoff to handle output_filename from inputs"""
+		if inputs and 'output_filename' in inputs:
+			self.output_filename = inputs['output_filename']
+		return super().kickoff(inputs=inputs)
