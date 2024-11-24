@@ -71,7 +71,7 @@ class BloqWritingCrew():
 	def humanizing_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['humanizing_task'],
-			output_file=self.output_filename or 'bloq1.md'  # Use provided filename or fallback to default
+			
 		)
 
 	@crew

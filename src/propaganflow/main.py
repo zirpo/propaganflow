@@ -9,7 +9,6 @@ from crewai.flow.flow import Flow, listen, start
 
 from .crews.research_paper_crew.research_paper_crew import ResearchPaperCrewCrew
 from .crews.bloq_writing_crew.bloq_writing_crew import BloqWritingCrew
-from .crews.medium_polisher_crew.medium_polisher_crew import MediumPolisherCrew
 
 
 class ResearchState(BaseModel):
@@ -31,10 +30,6 @@ class ResearchState(BaseModel):
     bloq_result: str = Field(
         default="",
         description="The result from the bloq writing process"
-    )
-    polished_result: str = Field(
-        default="",
-        description="The result from the medium polishing process"
     )
     config_name: str = Field(
         default="research",
@@ -188,7 +183,7 @@ class ResearchFlow(Flow[ResearchState]):
         inputs = {
             "file_path": str(research_file.absolute()),
             "topic": self.state.topic,
-            "output_filename": bloq_filename  # Pass the desired filename to the BloqWritingCrew
+            "output_filename": bloq_filename
         }
         
         result = (
@@ -204,29 +199,6 @@ class ResearchFlow(Flow[ResearchState]):
         with open(bloq_filename, "w") as f:
             f.write(self.state.bloq_result)
         print(f"Bloq content saved to {bloq_filename}")
-
-    @listen(write_bloq)
-    def polish_blog_post(self):
-        print("Starting blog post polishing process")
-        blog_post_file = Path(f"{self.state.config_name}_blogpost.md")
-        
-        inputs = {
-            "file_path": str(blog_post_file.absolute()),
-        }
-        
-        result = (
-            MediumPolisherCrew()
-            .crew()
-            .kickoff(inputs=inputs)
-        )
-
-        print("Blog post polishing completed", result.raw)
-        self.state.polished_result = result.raw
-        
-        # Save the polished blog post
-        with open(f"{self.state.config_name}_polished_blogpost.md", "w") as f:
-            f.write(self.state.polished_result)
-        print(f"Polished blog post saved to {self.state.config_name}_polished_blogpost.md")
 
 
 def kickoff(config_path: Optional[str] = None):
